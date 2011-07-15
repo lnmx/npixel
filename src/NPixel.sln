@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{38703E53-742F-4D3D-9A51-672F1E33B15D}"
+	ProjectSection(SolutionItems) = preProject
+		Version.cs = Version.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPixel", "NPixel\NPixel.csproj", "{CC66BF5B-6FEE-40AC-BABA-DED4E8B63200}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC66BF5B-6FEE-40AC-BABA-DED4E8B63200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC66BF5B-6FEE-40AC-BABA-DED4E8B63200}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC66BF5B-6FEE-40AC-BABA-DED4E8B63200}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC66BF5B-6FEE-40AC-BABA-DED4E8B63200}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
