@@ -23,6 +23,8 @@ namespace NPixel.Driver
 
         System.Drawing.Pen mStrokePen;
 
+        System.Drawing.Font mTextFont;
+
         public GdiDriver()
         {
             mSize = new Size( 100, 100 );
@@ -122,17 +124,23 @@ namespace NPixel.Driver
 
         public void Text( string text, double x, double y )
         {
-            throw new NotImplementedException();
+            mGraphics.DrawString( text, mTextFont, mFillBrush, new PointF( (float)x, (float)y ) );
         }
 
         public void Text( string text, double x, double y, double width, double height )
         {
-            throw new NotImplementedException();
+            // TODO align
+            mGraphics.DrawString( text, mTextFont, mFillBrush, new PointF( (float)x, (float)y ) );
+        }
+
+        public void TextFont( Font font )
+        {
+            mTextFont = new System.Drawing.Font( font.Name, (float)font.Size );
         }
 
         public Font CreateFont( string name, double size )
         {
-            throw new NotImplementedException();
+            return new Font( name, size );
         }
 
         public double TextWidth( string data )

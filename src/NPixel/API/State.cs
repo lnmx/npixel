@@ -16,6 +16,9 @@ namespace NPixel
         public NpGraphics( NpDriver driver )
         {
             mDriver = driver;
+            mColorMode = new ColorMode( ColorSpace.RGB, 1, 1, 1 );
+            Fill( Colors.Black );
+            Stroke( Colors.Black );
         }
 
         public double Height { get { return mSize.Y; } }

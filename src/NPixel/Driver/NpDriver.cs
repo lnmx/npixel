@@ -60,5 +60,7 @@ namespace NPixel
         void StrokeJoin( LineJoin join );
 
         void Fill( Color c );
+
+        void TextFont( Font font );
     }
 }

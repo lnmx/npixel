@@ -10,16 +10,18 @@ namespace NPixel
         public void TextFont( Font font )
         {
             mStyle.TextFont = font;
+
+            mDriver.TextFont( font );
         }
 
         public void TextFont( Font font, double size )
         {
-            mStyle.TextFont = CreateFont( font, size );
+            TextFont( CreateFont( font, size ) );
         }
 
         public void TextSize( double size )
         {
-            mStyle.TextFont = CreateFont( mStyle.TextFont, size );
+            TextFont( CreateFont( mStyle.TextFont, size ) );
         }
 
         public void TextAlign( TextXAlign align )

@@ -7,12 +7,12 @@ namespace NPixel
 {
     public partial class NpGraphics
     {
-        Font CreateFont( string name, double size )
+        public Font CreateFont( string name, double size )
         {
             return mDriver.CreateFont( name, size );
         }
 
-        Font CreateFont( Font font, double size )
+        public Font CreateFont( Font font, double size )
         {
             return mDriver.CreateFont( font.Name, size );
         }
