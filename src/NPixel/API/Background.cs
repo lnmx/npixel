@@ -22,6 +22,11 @@ namespace NPixel
             Background( MakeColor( gray ) );
         }
 
+        public void Background( double gray, double alpha )
+        {
+            Background( MakeColor( gray, alpha ) );
+        }
+
         public void Background( double value1, double value2, double value3 )
         {
             Background( MakeColor( value1, value2, value3 ) );

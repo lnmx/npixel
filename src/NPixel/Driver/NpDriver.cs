@@ -25,9 +25,9 @@ namespace NPixel
 
         void Bezier( float x1, float y1, float cpx1, float cpy1, float cpx2, float cpy2, float x2, float y2 );
 
-        void Text( string text, double x, double y );
+        void Text( string text, double x, double y, TextXAlign x_align, TextYAlign y_align );
 
-        void Text( string text, double x, double y, double width, double height );
+        void Text( string text, double x, double y, double width, double height, TextXAlign x_align, TextYAlign y_align );
 
         Font CreateFont( string name, double size );
 
@@ -62,5 +62,19 @@ namespace NPixel
         void Fill( Color c );
 
         void TextFont( Font font );
+
+        void Translate( double x, double y );
+
+        void Rotate( double radians );
+
+        void Scale( double x_factor, double y_factor );
+
+        void ResetTransform();
+
+        void PushTransform();
+
+        void PopTransform();
+
+        void Smooth();
     }
 }

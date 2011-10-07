@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 
 namespace NPixel.Driver
 {
     public class GdiDriver : NpDriver
     {
         bool mIsDrawing;
-        Bitmap mBuffer;
-        Graphics mGraphics;
-        Size mSize;
+        System.Drawing.Bitmap mBuffer;
+        System.Drawing.Graphics mGraphics;
+        System.Drawing.Size mSize;
 
         System.Drawing.Color mStroke;
         System.Drawing.Drawing2D.LineCap mStrokeCap;
@@ -25,9 +24,21 @@ namespace NPixel.Driver
 
         System.Drawing.Font mTextFont;
 
+        Stack<System.Drawing.Drawing2D.Matrix> mTransformStack = new Stack<System.Drawing.Drawing2D.Matrix>();
+
         public GdiDriver()
         {
-            mSize = new Size( 100, 100 );
+            mSize = new System.Drawing.Size( 100, 100 );
+
+            mTransformStack.Push( new System.Drawing.Drawing2D.Matrix() );
+        }
+
+        public GdiDriver( System.Drawing.Graphics g )
+            : this()
+        {
+            mSize = new System.Drawing.Size( (int)g.VisibleClipBounds.Width, (int)g.VisibleClipBounds.Height );
+
+            mGraphics = g;
         }
 
         public void Background( Color color )
@@ -122,15 +133,81 @@ namespace NPixel.Driver
             throw new NotImplementedException();
         }
 
-        public void Text( string text, double x, double y )
+        public void Text( string text, double x, double y, TextXAlign x_align, TextYAlign y_align )
         {
-            mGraphics.DrawString( text, mTextFont, mFillBrush, new PointF( (float)x, (float)y ) );
+            var size = mGraphics.MeasureString( text, mTextFont );
+
+            switch ( x_align )
+            {
+                case TextXAlign.Left:
+                    x -= size.Width;
+                    break;
+                case TextXAlign.Center:
+                    x -= size.Width / 2f;
+                    break;
+                case TextXAlign.Right:
+                    break;
+                default:
+                    break;
+            }
+
+            switch ( y_align )
+            {
+                case TextYAlign.Top:
+                    break;
+                case TextYAlign.Center:
+                    y -= size.Height / 2f;
+                    break;
+                case TextYAlign.Baseline:
+                    y -= size.Height * 0.8f; // TODO baseline
+                    break;
+                case TextYAlign.Bottom:
+                    y -= size.Height;
+                    break;
+                default:
+                    break;
+            }
+
+            mGraphics.DrawString( text, mTextFont, mFillBrush, MakePoint( (float)x, (float)y ) );
         }
 
-        public void Text( string text, double x, double y, double width, double height )
+        public void Text( string text, double x, double y, double width, double height, TextXAlign x_align, TextYAlign y_align )
         {
+            var size = mGraphics.MeasureString( text, mTextFont, MakeSize( (float)width, (float)height ) );
+
+            switch ( x_align )
+            {
+                case TextXAlign.Left:
+                    x -= size.Width;
+                    break;
+                case TextXAlign.Center:
+                    x -= size.Width / 2f;
+                    break;
+                case TextXAlign.Right:
+                    break;
+                default:
+                    break;
+            }
+
+            switch ( y_align )
+            {
+                case TextYAlign.Top:
+                    break;
+                case TextYAlign.Center:
+                    y -= size.Height / 2f;
+                    break;
+                case TextYAlign.Baseline:
+                    y -= size.Height * 0.8f; // TODO baseline
+                    break;
+                case TextYAlign.Bottom:
+                    y -= size.Height;
+                    break;
+                default:
+                    break;
+            }
+
             // TODO align
-            mGraphics.DrawString( text, mTextFont, mFillBrush, new PointF( (float)x, (float)y ) );
+            mGraphics.DrawString( text, mTextFont, mFillBrush, MakePoint( (float)x, (float)y ) );
         }
 
         public void TextFont( Font font )
@@ -170,7 +247,7 @@ namespace NPixel.Driver
 
         public void Clip( double x, double y, double width, double height )
         {
-            mGraphics.Clip = new Region( new System.Drawing.Rectangle( (int)x, (int)y, (int)width, (int)height ) );
+            mGraphics.Clip = new System.Drawing.Region( new System.Drawing.Rectangle( (int)x, (int)y, (int)width, (int)height ) );
         }
 
         public void NoClip()
@@ -180,7 +257,7 @@ namespace NPixel.Driver
 
         public void Size( double x, double y )
         {
-            mSize = new Size( (int)x, (int)y );
+            mSize = new System.Drawing.Size( (int)x, (int)y );
 
             if ( mIsDrawing )
             {
@@ -196,9 +273,12 @@ namespace NPixel.Driver
                 return;
             }
 
-            mBuffer = new Bitmap( mSize.Width, mSize.Height );
+            if ( null == mGraphics )
+            {
+                mBuffer = new System.Drawing.Bitmap( mSize.Width, mSize.Height );
 
-            mGraphics = Graphics.FromImage( mBuffer );
+                mGraphics = System.Drawing.Graphics.FromImage( mBuffer );
+            }
 
             mIsDrawing = true;
         }
@@ -247,7 +327,7 @@ namespace NPixel.Driver
 
         void UpdateStroke()
         {
-            mStrokePen = new Pen( mStroke, (float)mStrokeWeight )
+            mStrokePen = new System.Drawing.Pen( mStroke, (float)mStrokeWeight )
             {
                 StartCap = mStrokeCap,
                 EndCap   = mStrokeCap,
@@ -264,7 +344,7 @@ namespace NPixel.Driver
 
         void UpdateFill()
         {
-            mFillBrush = new SolidBrush( mFill );
+            mFillBrush = new System.Drawing.SolidBrush( mFill );
         }
 
         bool HasStroke
@@ -277,14 +357,61 @@ namespace NPixel.Driver
             get { return mFill.A > 0; }
         }
 
-        PointF MakePoint( double x, double y )
+        System.Drawing.PointF MakePoint( double x, double y )
         {
-            return new PointF( (float)x, (float)y );
+            return new System.Drawing.PointF( (float)x, (float)y );
+        }
+
+        System.Drawing.SizeF MakeSize( double x, double y )
+        {
+            return new System.Drawing.SizeF( (float)x, (float)y );
         }
 
         System.Drawing.Color ConvertColor( Color color )
         {
             return System.Drawing.Color.FromArgb( color.A, color.R, color.G, color.B );
+        }
+
+
+        const System.Drawing.Drawing2D.MatrixOrder TRANSFORM_ORDER = System.Drawing.Drawing2D.MatrixOrder.Prepend;
+
+        public void Translate( double x, double y )
+        {
+            mGraphics.TranslateTransform( (float)x, (float)y, TRANSFORM_ORDER );
+        }
+
+        public void Rotate( double radians )
+        {
+            mGraphics.RotateTransform( (float)( radians * NpGraphics.RADIANS_TO_DEGREES ), TRANSFORM_ORDER );
+        }
+
+        public void Scale( double x_factor, double y_factor )
+        {
+            mGraphics.ScaleTransform( (float)x_factor, (float)y_factor, TRANSFORM_ORDER );
+        }
+
+        public void ResetTransform()
+        {
+            mGraphics.ResetTransform();
+        }
+
+        public void PushTransform()
+        {
+            mTransformStack.Push( mGraphics.Transform );
+        }
+
+        public void PopTransform()
+        {
+            mGraphics.Transform = mTransformStack.Pop();
+        }
+
+        public void Smooth()
+        {
+            mGraphics.SmoothingMode      = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            mGraphics.TextRenderingHint  = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            mGraphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+            mGraphics.InterpolationMode  = System.Drawing.Drawing2D.InterpolationMode.High;
+            mGraphics.PixelOffsetMode    = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
         }
     }
 }

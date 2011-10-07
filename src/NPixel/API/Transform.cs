@@ -14,10 +14,12 @@ namespace NPixel
 
         public void Translate( double x, double y )
         {
+            mDriver.Translate( x, y );
         }
 
         public void Rotate( double radians )
         {
+            mDriver.Rotate( radians );
         }
 
         public void Scale( Vector factor )
@@ -32,18 +34,22 @@ namespace NPixel
 
         public void Scale( double x_factor, double y_factor )
         {
+            mDriver.Scale( x_factor, y_factor );
         }
 
         public void PushTransform()
         {
+            mDriver.PushTransform();
         }
 
         public void PopTransform()
         {
+            mDriver.PopTransform();
         }
 
         public void ResetTransform()
         {
+            mDriver.ResetTransform();
         }
     }
 }

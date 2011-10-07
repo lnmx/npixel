@@ -58,7 +58,7 @@ namespace NPixel
 
         public void Text( object data, double x, double y )
         {
-            mDriver.Text( data.ToString(), x, y );
+            mDriver.Text( data.ToString(), x, y, mStyle.TextXAlign, mStyle.TextYAlign );
         }
 
         public void Text( object data, Vector point )
@@ -73,7 +73,7 @@ namespace NPixel
 
         public void Text( object data, double x, double y, double width, double height )
         {
-            mDriver.Text( data.ToString(), x, y, width, height );
+            mDriver.Text( data.ToString(), x, y, width, height, mStyle.TextXAlign, mStyle.TextYAlign );
         }
     }
 }

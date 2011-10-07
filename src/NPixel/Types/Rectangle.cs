@@ -27,5 +27,13 @@ namespace NPixel
             Width = width;
             Height = height;
         }
+
+        public Rectangle( Vector offset, Vector size )
+        {
+            X = offset.X;
+            Y = offset.Y;
+            Width = size.X;
+            Height = size.Y;
+        }
     }
 }

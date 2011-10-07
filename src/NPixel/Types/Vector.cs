@@ -88,7 +88,16 @@ namespace NPixel
         {
             Vector c = a;
 
-            a.Mult( b );
+            c.Mult( b );
+
+            return c;
+        }
+
+        public static Vector Mult( Vector v, double n )
+        {
+            Vector c = v;
+
+            c.Mult( n );
 
             return c;
         }
@@ -96,6 +105,11 @@ namespace NPixel
         public static Vector operator *( Vector a, Vector b )
         {
             return Mult( a, b );
+        }
+
+        public static Vector operator *( Vector v, double n )
+        {
+            return Mult( v, n );
         }
 
         public void Mult( Vector v )
@@ -119,9 +133,23 @@ namespace NPixel
             return c;
         }
 
+        public static Vector Div( Vector v, double n )
+        {
+            Vector c = v;
+
+            c.Div( n );
+
+            return c;
+        }
+
         public static Vector operator /( Vector a, Vector b )
         {
             return Div( a, b );
+        }
+
+        public static Vector operator /( Vector v, double n )
+        {
+            return Div( v, n );
         }
 
         public void Div( Vector v )

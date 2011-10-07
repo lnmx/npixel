@@ -28,5 +28,10 @@ namespace NPixel
         {
             mDriver.EndDraw();
         }
+
+        public void Smooth()
+        {
+            mDriver.Smooth();
+        }
     }
 }
