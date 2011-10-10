@@ -19,6 +19,7 @@ namespace NPixel
             RectMode     = RectangleMode.Corners;
             EllipseMode  = RectangleMode.Corners;
             ArcMode      = RectangleMode.Corners;
+            PieMode      = RectangleMode.Corners;
 
             TextFont     = new Font( "Arial", 10 );
             TextXAlign   = TextXAlign.Left;
@@ -35,6 +36,7 @@ namespace NPixel
         public RectangleMode RectMode { get; set; }
         public RectangleMode EllipseMode { get; set; }
         public RectangleMode ArcMode { get; set; }
+        public RectangleMode PieMode { get; set; }
 
         public Font TextFont { get; set; }
         public TextXAlign TextXAlign { get; set; }

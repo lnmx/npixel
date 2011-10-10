@@ -76,5 +76,7 @@ namespace NPixel
         void PopTransform();
 
         void Smooth();
+
+        void Pie( double x1, double y1, double x2, double y2, double start_radians, double stop_radians );
     }
 }

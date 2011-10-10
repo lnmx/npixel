@@ -12,6 +12,11 @@ namespace NPixel
             mDriver.Point( x1, y1 );
         }
 
+        public void Line( Vector p1, Vector p2 )
+        {
+            mDriver.Line( p1.X, p1.Y, p2.X, p2.Y );
+        }
+
         public void Line( double x1, double y1, double x2, double y2 )
         {
             mDriver.Line( x1, y1, x2, y2 );
@@ -75,6 +80,21 @@ namespace NPixel
         public void Arc( double x1, double y1, double x2, double y2, double start_radians, double stop_radians )
         {
             Arc( MakeRect( mStyle.ArcMode, x1, y1, x2, y2 ), start_radians, stop_radians );
+        }
+
+        public void PieMode( RectangleMode mode )
+        {
+            mStyle.PieMode = mode;
+        }
+
+        public void Pie( Rectangle rect, double start_radians, double stop_radians )
+        {
+            mDriver.Pie( rect.X, rect.Y, rect.Right, rect.Bottom, start_radians, stop_radians );
+        }
+
+        public void Pie( double x1, double y1, double x2, double y2, double start_radians, double stop_radians )
+        {
+            Pie( MakeRect( mStyle.PieMode, x1, y1, x2, y2 ), start_radians, stop_radians );
         }
 
         public void Bezier( float x1, float y1, float cpx1, float cpy1, float cpx2, float cpy2, float x2, float y2 )

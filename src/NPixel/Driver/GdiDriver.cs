@@ -125,7 +125,23 @@ namespace NPixel.Driver
 
         public void Arc( double x1, double y1, double x2, double y2, double start_radians, double stop_radians )
         {
-            throw new NotImplementedException();
+            if ( HasStroke )
+            {
+                mGraphics.DrawArc( mStrokePen, (float)x1, (float)y1, (float)( x2 - x1 ), (float)( y2 - y1 ), (float)( start_radians * NpGraphics.RADIANS_TO_DEGREES ), (float)( ( stop_radians - start_radians ) * NpGraphics.RADIANS_TO_DEGREES ) );
+            }
+        }
+
+        public void Pie( double x1, double y1, double x2, double y2, double start_radians, double stop_radians )
+        {
+            if ( HasFill )
+            {
+                mGraphics.FillPie( mFillBrush, (float)x1, (float)y1, (float)( x2 - x1 ), (float)( y2 - y1 ), (float)( start_radians * NpGraphics.RADIANS_TO_DEGREES ), (float)( ( stop_radians - start_radians ) * NpGraphics.RADIANS_TO_DEGREES ) );
+            }
+
+            if ( HasStroke )
+            {
+                mGraphics.DrawPie( mStrokePen, (float)x1, (float)y1, (float)( x2 - x1 ), (float)( y2 - y1 ), (float)( start_radians * NpGraphics.RADIANS_TO_DEGREES ), (float)( ( stop_radians - start_radians ) * NpGraphics.RADIANS_TO_DEGREES ) );
+            }
         }
 
         public void Bezier( float x1, float y1, float cpx1, float cpy1, float cpx2, float cpy2, float x2, float y2 )
